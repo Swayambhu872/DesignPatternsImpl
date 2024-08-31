@@ -1,0 +1,86 @@
+interface Coffee {
+    int getPrice();
+    String getDescription();
+}
+
+class SimpleCoffee implements Coffee{
+
+    @Override
+    public int getPrice() {
+        return 10;
+    }
+
+    @Override
+    public String getDescription() {
+        return "Simple coffe";
+    }
+}
+
+abstract class CoffeeDecorator implements Coffee {
+    protected Coffee coffee;
+
+    public CoffeeDecorator(Coffee coffee) {
+        this.coffee = coffee;
+    }
+
+    public int getPrice() {
+        return this.coffee.getPrice();
+    }
+
+    public String getDescription() {
+        return this.coffee.getDescription();
+    }
+}
+
+class MilkDecorator extends CoffeeDecorator{
+
+    public MilkDecorator(Coffee coffee) {
+        super(coffee);
+    }
+
+
+    @Override
+    public int getPrice() {
+        return super.getPrice() + 10;
+    }
+
+    @Override
+    public String getDescription() {
+        return super.getDescription() + " with milk";
+    }
+}
+
+class SugarDecorator extends CoffeeDecorator{
+
+    public SugarDecorator(Coffee coffee) {
+        super(coffee);
+    }
+
+
+    @Override
+    public int getPrice() {
+        return super.getPrice() + 5;
+    }
+
+    @Override
+    public String getDescription() {
+        return super.getDescription() + " with sugar";
+    }
+}
+
+
+
+
+
+class Scratch {
+    public static void main(String[] args) {
+        Coffee coffee = new SimpleCoffee();
+
+        Coffee coffeeWithMilk = new MilkDecorator(coffee);
+        System.out.println(coffeeWithMilk.getDescription());
+        System.out.println(coffeeWithMilk.getPrice());
+        Coffee coffeeWithMilkAndSugar = new SugarDecorator(coffeeWithMilk);
+        System.out.println(coffeeWithMilkAndSugar.getDescription());
+        System.out.println(coffeeWithMilkAndSugar.getPrice());
+    }
+}
